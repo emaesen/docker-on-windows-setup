@@ -114,7 +114,10 @@ $ docker run -it -v /d/gitlab/myproject/src:/data alpine ls /data/
 #    run a shell script inside the container:
 # docker run -it -v [SHARE_NAME][PROJECT_FOLDER]:/data alpine /bin/sh
 $ docker run -it -v /d/gitlab/myproject/src:/data alpine /bin/sh
-# We're now in the container environment, so we can try to create files, create symlinks etc:
+# We're now in the container environment
+$ cd /data/
+# We're now in the mounted folder
+# so we can try to create files, create symlinks etc:
 $ ls -al test*
 ls: test*: No such file or directory
 $ touch testsymlink
@@ -123,5 +126,6 @@ $ ls -al test*
 -rw-r--r--  1 root  root   0 Sep  6 21:15 testsymlink
 lrwxrwxrwx  1 root  root  13 Sep  6 21:15 testsymlink2 -> ./testsymlink
 # SUCCESS! Works as expected.
-# You can also view the folder in Windows File Explorer to verify the files are visible/accessible there
+# You can also view the folder in Windows File Explorer
+# to verify the files are visible/accessible there
 ```
