@@ -38,13 +38,13 @@ Following are the steps I had to take to get a Linux Docker container that requi
 *The actions below may or may not work for your specific situation...*
 
 
-#### Prevent bash script errors due to CR characters.
+#### **⊛** ***Prevent bash script errors due to CR characters.***
 
 * While installing your *git bash* (or equivalent) command window (which comes with Git for Windows), configure it to checkout linefeeds as-is. i.e. LF (do not convert to CRLF)
 * ![Git config screencapture](./git-config-lineendings.jpg)
 
 
-#### Allow Docker container scripts to access the Windows file system
+#### **⊛** ***Allow Docker container scripts to access the Windows file system***
 
 * Open Oracle VM VirtualBox Manager
 * Configure Docker VM named "default" to share the folder where your source code is located (if this is a location other than c:\Users).
@@ -54,7 +54,7 @@ Following are the steps I had to take to get a Linux Docker container that requi
   * ![VirtualBox Shared Folder configuration](./virtualbox-docker-mount.jpg)
 
 
-#### Allow use of symlinks on the shared Folder
+#### **⊛** ***Allow use of symlinks on the shared Folder***
 
 * Set a `SharedFoldersEnableSymlinksCreate` config variable to allow symlinks on the shared folder (if this is a location other than c:\Users):
 ```bash
@@ -65,7 +65,7 @@ In my case `VM_NAME="default"` and `SHARE_NAME="d/gitlab"`:
 $ cd /c/"Program Files"/Oracle/VirtualBox
 $ ./VBoxManage.exe setextradata default VBoxInternal2/SharedFoldersEnableSymlinksCreate/d/gitlab 1
 ```
-Note: This enables the *use* of symlinks, *but does not give/set permissions!*
+Note: This enables the *use* of symlinks, *but does not give/set permissions!* (That requires a separate step - see further below)
 
 * PS: You can read the settings with
 ```bash
@@ -73,7 +73,7 @@ Note: This enables the *use* of symlinks, *but does not give/set permissions!*
 ```
 
 
-#### Ensure all Docker scripts run in a Linux-like environment
+#### **⊛** ***Ensure all Docker scripts run in a Linux-like environment***
 
 Docker Toolbox comes with its own "quickstart" terminal. This should be used when interacting with Docker.
 
@@ -84,12 +84,12 @@ Docker Toolbox comes with its own "quickstart" terminal. This should be used whe
 Note: Weird that I didn't find any reference to this terminal on the [docker-for-windows](https://docs.docker.com/docker-for-windows) page. (They even recommend to use "Command Prompt or PowerShell, but not PowerShell ISE" which is misleading to say the least. Maybe this applies to "Docker for Windows" proper, but -as I found out the hard way- *not* for "Docker Toolbox").
 
 
-#### Ensure that Docker scripts have permission to actually create symlinks
+#### **⊛** ***Ensure that Docker scripts have permission to actually create symlinks***
 
 The action above only enabled the *use* of symlinks. To actually allow Docker scripts to *create* symlinks:
 
 * Open Docker Quickstart Terminal *as Administrator*!
-  * Right-click on the Docker Quickstart Terminal icon on the desktop (or start menu) and select *Run As Administrator*. 
+  * Right-click on the Docker Quickstart Terminal icon on the desktop (or start menu) and select *Run As Administrator*.
   * If the Docker VM ("default") is running inside Oracle VM VirtualBox Manager, it needs to be Powered Off there first!! (or type `docker-machine stop` in a docker command window) and make sure that all regular Docker Quickstart Terminals are closed.
   * (Apparently, when run as Admin, the Quickstart Terminal starts the Docker VM, but that is not reflected within VirtialBox Manager - there it remains to be displayed as  "Powered Off".)
   * (This has the downside that you no longer can inspect the configuration settings for the Docker VM)
